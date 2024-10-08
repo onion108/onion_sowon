@@ -1,0 +1,11 @@
+sowon
+png2c
+digits.h
+penger_walk_sheet.h
+*.kra
+*~
+SDL2
+*.obj
+*.exe
+.dSYM/
+*.gz
