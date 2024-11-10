@@ -4,6 +4,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#ifdef __APPLE__
+#include <mach-o/dyld.h>
+#include <libgen.h>
+#endif
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
@@ -40,6 +44,18 @@
 #define PENGER_STEPS_PER_SECOND 3
 
 Mix_Chunk *time_up = NULL;
+
+void get_path_of_exec(char *buf, uint32_t size)
+{
+    #ifdef __APPLE__
+    if (_NSGetExecutablePath(buf, &size)) {
+        fprintf(stderr, "Cannot get resource!! ");
+        abort();
+    }
+    #else
+    #error Do not support other platform than macOS.
+    #endif
+}
 
 void secc(int code)
 {
@@ -265,7 +281,11 @@ int main(int argc, char **argv)
     secc(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO));
     secc(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048));
 
-    time_up = secp(Mix_LoadWAV("time_up.wav"));
+    char wav_path[2048];
+    get_path_of_exec(wav_path, 2048);
+    strncpy(wav_path, dirname(wav_path), 2048);
+    strncat(wav_path, "/resource/time_up.wav", 2048);
+    time_up = secp(Mix_LoadWAV(wav_path));
 
     SDL_Window *window =
         secp(SDL_CreateWindow(
