@@ -1,7 +1,7 @@
 COMMON_CFLAGS=		-Wall -Wextra -std=c99 -pedantic -DPENGER
-CFLAGS+=		`pkg-config --cflags sdl2` `pkg-config --cflags sdl2_mixer` $(COMMON_CFLAGS)
+CFLAGS+=		`pkg-config --cflags sdl2` `pkg-config --cflags SDL2_mixer` $(COMMON_CFLAGS)
 COMMON_LIBS=		-lm
-LIBS=			`pkg-config --libs sdl2` `pkg-config --libs sdl2_mixer` $(COMMON_LIBS)
+LIBS=			`pkg-config --libs sdl2` `pkg-config --libs SDL2_mixer` $(COMMON_LIBS)
 PREFIX?=		/usr/local
 INSTALL?=		install
 

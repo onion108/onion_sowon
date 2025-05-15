@@ -4,9 +4,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <unistd.h>
+#include <libgen.h>
 #ifdef __APPLE__
 #include <mach-o/dyld.h>
-#include <libgen.h>
 #endif
 
 #include <SDL2/SDL.h>
@@ -49,6 +50,11 @@ void get_path_of_exec(char *buf, uint32_t size)
 {
     #ifdef __APPLE__
     if (_NSGetExecutablePath(buf, &size)) {
+        fprintf(stderr, "Cannot get resource!! ");
+        abort();
+    }
+    #elif __linux__
+    if (readlink("/proc/self/exe", buf, size) == -1) {
         fprintf(stderr, "Cannot get resource!! ");
         abort();
     }
