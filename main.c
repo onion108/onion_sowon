@@ -58,8 +58,10 @@ void get_path_of_exec(char *buf, uint32_t size)
         fprintf(stderr, "Cannot get resource!! ");
         abort();
     }
+    #elif _WIN32
+    #error Fuck you Windows user. Will never support it.
     #else
-    #error Do not support other platform than macOS.
+    #error Do not support other platform than macOS or Linux.
     #endif
 }
 
